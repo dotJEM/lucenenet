@@ -28,12 +28,11 @@
   </PropertyGroup>
 
   <Import Project="$(SolutionDir).build/nuget.props" />
+  <Import Project="$(SolutionDir)/lucene.common.props"/>
   
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard2.1;netstandard2.0;net462</TargetFrameworks>
-
     <RootNamespace>Lucene.Net.QueryParsers</RootNamespace>
-    
+   
     <AssemblyTitle>Lucene.Net.QueryParser</AssemblyTitle>
     <PackageTags>$(PackageTags);query;queryparser</PackageTags>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>

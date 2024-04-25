@@ -540,27 +540,24 @@ namespace Lucene.Net.Store
             /// <inheritdoc/>
             protected override void Dispose(bool disposing)
             {
-                if (disposing)
+                if (!disposing) return;
+
+                parent.OnIndexOutputClosed(this);
+                if (!isOpen) return;
+
+                Exception priorE = null; // LUCENENET: No need to cast to IOExcpetion
+                try
                 {
-                    parent.OnIndexOutputClosed(this);
-                    // only close the file if it has not been closed yet
-                    if (isOpen)
-                    {
-                        Exception priorE = null; // LUCENENET: No need to cast to IOExcpetion
-                        try
-                        {
-                            file.Flush(flushToDisk: true);
-                        }
-                        catch (Exception ioe) when (ioe.IsIOException())
-                        {
-                            priorE = ioe;
-                        }
-                        finally
-                        {
-                            isOpen = false;
-                            IOUtils.DisposeWhileHandlingException(priorE, file);
-                        }
-                    }
+                    file.Flush(flushToDisk: true);
+                }
+                catch (Exception ioe) when (ioe.IsIOException())
+                {
+                    priorE = ioe;
+                }
+                finally
+                {
+                    isOpen = false;
+                    IOUtils.DisposeWhileHandlingException(priorE, file);
                 }
                 //base.Dispose(disposing); // LUCENENET: No need to call base class, we are not using the functionality of BufferedIndexOutput
             }

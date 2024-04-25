@@ -98,7 +98,7 @@ namespace Lucene.Net.Analysis.Util
                         services.Add(name, service);
                     }
                 }
-                this.services = services.AsReadOnly();
+                this.services = J2N.Collections.Generic.Extensions.DictionaryExtensions.AsReadOnly(services);
             }
             finally
             {

@@ -38,7 +38,9 @@ namespace Lucene.Net.Support
 
         private static class EmptyDictionaryHolder<TKey, TValue>
         {
-            public static readonly ReadOnlyDictionary<TKey, TValue> EMPTY_DICTIONARY = new JCG.Dictionary<TKey, TValue>().AsReadOnly(); // LUCENENET-615: Must support nullable keys
+            public static readonly ReadOnlyDictionary<TKey, TValue> EMPTY_DICTIONARY = J2N.Collections.Generic.Extensions.DictionaryExtensions.AsReadOnly(
+                new JCG.Dictionary<TKey, TValue>());
+            // LUCENENET-615: Must support nullable keys
         }
 
         private static class EmptySetHolder<T>
@@ -88,7 +90,7 @@ namespace Lucene.Net.Support
 
         public static IDictionary<TKey, TValue> SingletonMap<TKey, TValue>(TKey key, TValue value)
         {
-            return new Dictionary<TKey, TValue> { { key, value } }.AsReadOnly();
+            return J2N.Collections.Generic.Extensions.DictionaryExtensions.AsReadOnly(new Dictionary<TKey, TValue> { { key, value } });
         }
 
 

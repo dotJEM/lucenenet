@@ -634,7 +634,7 @@ namespace Lucene.Net.Expressions.JS
             {
                 throw Error.Create("Cannot resolve function", e);
             }
-            return map.AsReadOnly();
+            return J2N.Collections.Generic.Extensions.DictionaryExtensions.AsReadOnly(map);
         }
 
         private static Type GetType(string typeName)

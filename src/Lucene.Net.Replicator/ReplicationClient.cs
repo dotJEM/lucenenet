@@ -247,7 +247,7 @@ namespace Lucene.Net.Replicator
                 if (notify && !disposed)
                 { // no use to notify if we are closed already
                     // LUCENENET specific - pass the copiedFiles as read only
-                    handler.RevisionReady(session.Version, session.SourceFiles, copiedFiles.AsReadOnly(), sourceDirectory);
+                    handler.RevisionReady(session.Version, session.SourceFiles, DictionaryExtensions.AsReadOnly(copiedFiles), sourceDirectory);
                 }
             }
             finally

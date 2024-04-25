@@ -1,4 +1,4 @@
-/*
+﻿/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -23,7 +23,7 @@ using System;
 
 namespace Lucene.Net.Support
 {
-    internal class CRC32 : IChecksum
+    public class CRC32 : IChecksum
     {
         private static readonly uint[] crcTable = InitializeCRCTable();
 

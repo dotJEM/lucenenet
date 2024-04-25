@@ -150,10 +150,10 @@ namespace Lucene.Net.Analysis.Phonetic.Language.Bm
                         rs["common"] = ParseRules(CreateScanner(s, rt, "common"), CreateResourceName(s, rt, "common"));
                     }
 
-                    rts[rt] = rs.AsReadOnly();
+                    rts[rt] = J2N.Collections.Generic.Extensions.DictionaryExtensions.AsReadOnly(rs);
                 }
 
-                rules[s] = rts.AsReadOnly();
+                rules[s] = J2N.Collections.Generic.Extensions.DictionaryExtensions.AsReadOnly(rts);
             }
             return rules;
         }

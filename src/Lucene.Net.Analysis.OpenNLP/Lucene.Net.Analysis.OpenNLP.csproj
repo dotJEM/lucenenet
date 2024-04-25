@@ -28,6 +28,7 @@
   </PropertyGroup>
 
   <Import Project="$(SolutionDir).build/nuget.props" />
+  <Import Project="$(SolutionDir)/lucene.common.props"/>
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>

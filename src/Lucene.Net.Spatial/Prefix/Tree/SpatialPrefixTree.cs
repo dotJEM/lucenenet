@@ -286,7 +286,7 @@ namespace Lucene.Net.Spatial.Prefix.Tree
             Cell cell = GetCell(p, detailLevel);
             if (!inclParents)
             {
-                return new[] { cell }.AsReadOnly();
+                return J2N.Collections.Generic.Extensions.ListExtensions.AsReadOnly( new[] { cell });
             }
             string endToken = cell.TokenString;
             if (Debugging.AssertsEnabled) Debugging.Assert(endToken.Length == detailLevel);

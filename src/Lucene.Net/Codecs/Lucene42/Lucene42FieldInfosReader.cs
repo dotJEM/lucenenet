@@ -100,7 +100,7 @@ namespace Lucene.Net.Codecs.Lucene42
                     DocValuesType normsType = GetDocValuesType(input, (byte)((val.TripleShift(4)) & 0x0F));
                     IDictionary<string, string> attributes = input.ReadStringStringMap();
                     infos[i] = new FieldInfo(name, isIndexed, fieldNumber, storeTermVector, 
-                        omitNorms, storePayloads, indexOptions, docValuesType, normsType, attributes.AsReadOnly());
+                        omitNorms, storePayloads, indexOptions, docValuesType, normsType, DictionaryExtensions.AsReadOnly(attributes));
                 }
 
                 CodecUtil.CheckEOF(input);

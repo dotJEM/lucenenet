@@ -218,7 +218,7 @@ namespace Lucene.Net.Analysis.Phonetic.Language.Bm
 
         private Lang(IList<LangRule> rules, Languages languages)
         {
-            this.rules = rules.AsReadOnly();
+            this.rules = J2N.Collections.Generic.Extensions.ListExtensions.AsReadOnly(rules);
             this.languages = languages;
         }
 

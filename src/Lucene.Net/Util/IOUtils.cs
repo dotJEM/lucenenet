@@ -180,10 +180,7 @@ namespace Lucene.Net.Util
                 catch (Exception t) when (t.IsThrowable())
                 {
                     AddSuppressed(priorException ?? th, t);
-                    if (th is null)
-                    {
-                        th = t;
-                    }
+                    th ??= t;
                 }
             }
 

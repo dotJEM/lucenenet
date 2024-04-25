@@ -79,10 +79,10 @@ namespace Lucene.Net.Replicator
             }
             revisionFiles.Add(CreateRevisionFile(segmentsFile, dir)); // segments_N must be last
 
-            return new Dictionary<string, IList<RevisionFile>>
+            return J2N.Collections.Generic.Extensions.DictionaryExtensions.AsReadOnly(new Dictionary<string, IList<RevisionFile>>
             {
                 { SOURCE, revisionFiles }
-            }.AsReadOnly();
+            });
         }
    
         /// <summary>

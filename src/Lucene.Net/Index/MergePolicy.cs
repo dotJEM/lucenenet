@@ -190,7 +190,7 @@ namespace Lucene.Net.Index
                         readers.Add(reader);
                     }
                 }
-                return readers.AsReadOnly();
+                return J2N.Collections.Generic.Extensions.ListExtensions.AsReadOnly(readers);
             }
 
             /// <summary>

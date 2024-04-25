@@ -28,10 +28,9 @@
   </PropertyGroup>
 
   <Import Project="$(SolutionDir).build/nuget.props" />
+  <Import Project="$(SolutionDir)/lucene.common.props"/>
   
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard2.1;netstandard2.0;net462</TargetFrameworks>
-
     <AssemblyTitle>Lucene.Net.Sandbox</AssemblyTitle>
     <PackageTags>$(PackageTags);sandbox</PackageTags>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
