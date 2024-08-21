@@ -3,6 +3,7 @@ using J2N.Text;
 using Lucene.Net.Diagnostics;
 using Lucene.Net.Replicator.Http.Abstractions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -80,15 +81,6 @@ namespace Lucene.Net.Replicator.Http
         /// Request parameter name for providing the file's name.
         /// </summary>
         public const string REPLICATE_FILENAME_PARAM = "filename";
-
-        /// <summary>
-        /// Json Serializer Settings to use when serializing and deserializing errors.
-        /// </summary>
-        // LUCENENET specific
-        public static readonly JsonSerializerSettings JSON_SERIALIZER_SETTINGS = new JsonSerializerSettings()
-        {
-            TypeNameHandling = TypeNameHandling.All
-        };
 
         private const int SHARD_IDX = 0, ACTION_IDX = 1;
 
@@ -191,11 +183,14 @@ namespace Lucene.Net.Replicator.Http
             catch (Exception e)
             {
                 response.StatusCode = (int)HttpStatusCode.InternalServerError; // propagate the failure
+                
                 try
                 {
-                    TextWriter writer = new StreamWriter(response.Body);
-                    JsonSerializer serializer = JsonSerializer.Create(JSON_SERIALIZER_SETTINGS);
-                    serializer.Serialize(writer, e, e.GetType());
+                    using TextWriter writer = new StreamWriter(response.Body);
+                    new JObject {
+                        ["error"] = e.GetType().Name, // Maybe providing the "Short name" of the Exception type could be considered safe enough to disclose.
+                        ["message"] = e.Message,
+                    }.WriteTo(new JsonTextWriter(writer));
                 }
                 catch (Exception e2) when (e2.IsException())
                 {

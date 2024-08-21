@@ -61,6 +61,12 @@ namespace Lucene.Net.Replicator.Http
         private readonly HttpClient httpc;
 
         /// <summary>
+        /// Json Serializer Settings to use in <see cref="ExecutePost"/>.
+        /// </summary>
+        // LUCENENET specific
+        private static readonly JsonSerializerSettings JSON_SERIALIZER_SETTINGS = new JsonSerializerSettings();
+
+        /// <summary>
         /// Creates a new <see cref="HttpClientBase"/> with the given host, port and path.
         /// </summary>
         /// <remarks>
@@ -197,8 +203,8 @@ namespace Lucene.Net.Replicator.Http
             try
             {
                 TextReader reader = new StreamReader(input);
-                JsonSerializer serializer = JsonSerializer.Create(ReplicationService.JSON_SERIALIZER_SETTINGS);
-                exception = (Exception)serializer.Deserialize(new JsonTextReader(reader));
+                JObject json = JObject.Load(new JsonTextReader(reader));
+                exception = new ReplicatorClientException((string)json["error"], (string)json["message"]);
             }
             catch (Exception th) when (th.IsThrowable())
             {
@@ -224,11 +230,12 @@ namespace Lucene.Net.Replicator.Http
             //.NET Note: No headers? No ContentType?... Bad use of Http?
             HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, QueryString(request, parameters));
 
-            req.Content = new StringContent(JToken.FromObject(entity, JsonSerializer.Create(ReplicationService.JSON_SERIALIZER_SETTINGS))
+            req.Content = new StringContent(JToken.FromObject(entity, JsonSerializer.Create(JSON_SERIALIZER_SETTINGS))
                 .ToString(Formatting.None), Encoding.UTF8, "application/json");
 
             return Execute(req);
         }
+
 
         /// <summary>
         /// <b>Internal:</b> Execute a request and return its result.
@@ -487,6 +494,16 @@ namespace Lucene.Net.Replicator.Http
                     consumed = true;
                 }
             }
+        }
+    }
+
+    public class ReplicatorClientException :Exception
+    {
+        public string Error { get; }
+
+        public ReplicatorClientException(string error, string message) : base(message)
+        {
+            Error = error;
         }
     }
 }
